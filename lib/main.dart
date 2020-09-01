@@ -1,5 +1,5 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:fluro/fluro.dart';
+import 'package:fluro/fluro.dart' as _fluroDart;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +51,7 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
 
   @override
   Widget build(BuildContext context) {
-    final router = new Router();
+    final router = new _fluroDart.Router();
     Routes.configureRoutes(router);
 
     return MaterialApp(

@@ -6,17 +6,16 @@
  * Copyright (c) 2018 Yakka, LLC. All rights reserved.
  * See LICENSE for distribution and usage details.
  */
-import 'package:fluro/fluro.dart';
+import 'package:fluro/fluro.dart' as _fluroDart;
 import 'package:flutter/material.dart';
 import 'package:paymentez_mobile/config/route_handlers.dart';
-
 
 class Routes {
   static final String root = "/";
   static final String addCard = "/add_card";
 
-  static void configureRoutes(Router router) {
-    router.notFoundHandler = Handler(
+  static void configureRoutes(_fluroDart.Router router) {
+    router.notFoundHandler = _fluroDart.Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       debugPrint("ROUTE WAS NOT FOUND !!!");
       return Container();
@@ -24,7 +23,10 @@ class Routes {
 //    Route
     router.define(root, handler: rootHandler);
 //    AddCard
-    router.define(addCard,
-        handler: addCardHandler, transitionType: TransitionType.fadeIn);
+    router.define(
+      addCard,
+      handler: addCardHandler,
+      transitionType: _fluroDart.TransitionType.fadeIn,
+    );
   }
 }

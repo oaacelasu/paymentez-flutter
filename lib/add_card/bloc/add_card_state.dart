@@ -99,7 +99,7 @@ class AddCardState extends Equatable {
       newNumberMaskFormatter = numberMaskFormatter;
 
     if (cardBin != null)
-      newNumberMaskFormatter.updateMask(cardBin.cardMask ?? numberDefaultMask);
+      newNumberMaskFormatter.updateMask(mask: cardBin.cardMask ?? numberDefaultMask);
 
     return copyWith(
       cardBin: cardBin,

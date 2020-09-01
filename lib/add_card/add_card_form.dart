@@ -32,7 +32,9 @@ class AddCardForm extends StatefulWidget {
         _summitButton = summitButton,
         _belowButton = belowButton,
         _title = title,
-        super(key: key);
+        super(
+          key: key,
+        );
 
   State<AddCardForm> createState() => _AddCardFormState();
 }
@@ -54,7 +56,6 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   final _fiscalNumberFocus = FocusNode();
   final _tuyaCodeFocus = FocusNode();
   AddCardBloc _addCardBloc;
-  Map<String, dynamic> _cameraData;
   PaymentezRepository get _paymentezRepository => widget._paymentezRepository;
   bool isButtonClicked = false;
 
@@ -100,14 +101,11 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
         _addCardBloc.state.cardBin?.cardType == 'ak';
   }
 
-  AppLifecycleState _notification;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print(state);
     FocusScope.of(context).unfocus();
-    setState(() {
-      _notification = state;
-    });
+    setState(() {});
   }
 
   @override
@@ -175,8 +173,6 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
     setState(() {
       print('7');
-
-      _cameraData = details;
       print(details);
 
       if (details['cardholderName'] != null) {
@@ -592,15 +588,15 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
     switch (text.length) {
       case 0:
-        _dateExpController.value = _maskDateExpFormatter.updateMask('XX/XX');
+        _dateExpController.value = _maskDateExpFormatter.updateMask();
         break;
       case 1:
         if (int.parse(text) > 1)
-          _dateExpController.value = _maskDateExpFormatter.updateMask('0X/XX');
+          _dateExpController.value = _maskDateExpFormatter.updateMask();
         break;
       case 2:
         if (int.parse(text) > 12 || int.parse(text) == 0)
-          _dateExpController.value = _maskDateExpFormatter.updateMask('0X/XX');
+          _dateExpController.value = _maskDateExpFormatter.updateMask();
         break;
     }
   }

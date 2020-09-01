@@ -10,7 +10,6 @@ import 'package:paymentez_mobile/channel/paymentez_channel.dart';
 import 'package:paymentez_mobile/repository/model/card_bin_model.dart';
 import 'package:paymentez_mobile/repository/model/card_model.dart';
 import 'package:paymentez_mobile/repository/model/error_model.dart';
-import 'package:paymentez_mobile/repository/model/user.dart';
 import 'package:paymentez_mobile/repository/paymentez_repository.dart';
 import 'package:paymentez_mobile/utils/validators.dart';
 
@@ -122,7 +121,6 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
   Stream<AddCardState> _mapSummitedToState(
     BuildContext context, {
     String sessionId,
-    User user,
     CardModel card,
   }) async* {
     yield state.loading();

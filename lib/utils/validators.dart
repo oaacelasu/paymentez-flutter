@@ -107,11 +107,6 @@ class Validators {
     return !_hasYearPassed(year) && !_hasMonthPassed(year, month);
   }
 
-  static List<int> _getExpiryDate(String value) {
-    var split = value.split(new RegExp(r'(\/)'));
-    return [int.parse(split[0]), int.parse(split[1])];
-  }
-
   static bool _hasMonthPassed(int year, int month) {
     var now = DateTime.now();
     // The month has passed if:

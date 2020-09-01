@@ -13,14 +13,20 @@ class SetEnvironment extends ConfigEvent {
   final String paymentezClientAppKey;
   final bool isFlutterAppHost;
 
-  const SetEnvironment(
-      {@required this.testMode,
-      @required this.paymentezClientAppCode, this.isFlutterAppHost = false,
-      @required this.paymentezClientAppKey});
+  const SetEnvironment({
+    @required this.testMode,
+    @required this.paymentezClientAppCode,
+    this.isFlutterAppHost = false,
+    @required this.paymentezClientAppKey,
+  });
 
   @override
-  List<Object> get props =>
-      [testMode, paymentezClientAppCode, paymentezClientAppKey, isFlutterAppHost];
+  List<Object> get props => [
+        testMode,
+        paymentezClientAppCode,
+        paymentezClientAppKey,
+        isFlutterAppHost,
+      ];
 
   @override
   String toString() =>

@@ -2,11 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 abstract class ConfigState extends Equatable {
-  const ConfigState(
-      {@required this.clientAppCode,
-      @required this.clientAppKey,
-      this.isFlutterAppHost = false,
-      this.initiated = false});
+  const ConfigState({
+    @required this.clientAppCode,
+    @required this.clientAppKey,
+    this.isFlutterAppHost = false,
+    this.initiated = false,
+  });
 
   final String baseUrl = '';
   final String clientAppCode;
@@ -15,8 +16,13 @@ abstract class ConfigState extends Equatable {
   final bool initiated;
 
   @override
-  List<Object> get props =>
-      [baseUrl, clientAppCode, clientAppKey, isFlutterAppHost, initiated];
+  List<Object> get props => [
+        baseUrl,
+        clientAppCode,
+        clientAppKey,
+        isFlutterAppHost,
+        initiated,
+      ];
 }
 
 class DevModeState extends ConfigState {
@@ -24,10 +30,11 @@ class DevModeState extends ConfigState {
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
       {bool initiated})
       : super(
-            clientAppCode: clientAppCode,
-            clientAppKey: clientAppKey,
-            isFlutterAppHost: isFlutterAppHost,
-            initiated: initiated);
+          clientAppCode: clientAppCode,
+          clientAppKey: clientAppKey,
+          isFlutterAppHost: isFlutterAppHost,
+          initiated: initiated,
+        );
 
   @override
   String get baseUrl => 'https://ccapi-dev.paymentez.com';
@@ -38,10 +45,11 @@ class StgModeState extends ConfigState {
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
       {bool initiated})
       : super(
-            clientAppCode: clientAppCode,
-            clientAppKey: clientAppKey,
-            isFlutterAppHost: isFlutterAppHost,
-            initiated: initiated);
+          clientAppCode: clientAppCode,
+          clientAppKey: clientAppKey,
+          isFlutterAppHost: isFlutterAppHost,
+          initiated: initiated,
+        );
 
   @override
   String get baseUrl => 'https://ccapi-stg.paymentez.com';
@@ -52,10 +60,11 @@ class QaModeState extends ConfigState {
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
       {bool initiated})
       : super(
-            clientAppCode: clientAppCode,
-            clientAppKey: clientAppKey,
-            isFlutterAppHost: isFlutterAppHost,
-            initiated: initiated);
+          clientAppCode: clientAppCode,
+          clientAppKey: clientAppKey,
+          isFlutterAppHost: isFlutterAppHost,
+          initiated: initiated,
+        );
 
   @override
   String get baseUrl => 'https://ccapi-qa.paymentez.com';
@@ -66,10 +75,11 @@ class ProdModeState extends ConfigState {
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
       {bool initiated})
       : super(
-            clientAppCode: clientAppCode,
-            clientAppKey: clientAppKey,
-            isFlutterAppHost: isFlutterAppHost,
-            initiated: initiated);
+          clientAppCode: clientAppCode,
+          clientAppKey: clientAppKey,
+          isFlutterAppHost: isFlutterAppHost,
+          initiated: initiated,
+        );
 
   @override
   String get baseUrl => 'https://ccapi.paymentez.com';
