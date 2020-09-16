@@ -588,15 +588,15 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
     switch (text.length) {
       case 0:
-        _dateExpController.value = _maskDateExpFormatter.updateMask();
+        _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
       case 1:
         if (int.parse(text) > 1)
-          _dateExpController.value = _maskDateExpFormatter.updateMask();
+          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
       case 2:
         if (int.parse(text) > 12 || int.parse(text) == 0)
-          _dateExpController.value = _maskDateExpFormatter.updateMask();
+          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
     }
   }
