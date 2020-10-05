@@ -585,19 +585,10 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
   void _dateExpFormatter() {
     var text = _dateExpController.value.text;
-
-    switch (text.length) {
-      case 0:
-        _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
-        break;
-      case 1:
-        if (int.parse(text) > 1)
-          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
-        break;
-      case 2:
-        if (int.parse(text) > 12 || int.parse(text) == 0)
-          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
-        break;
+    if(text.length > 0 && text.length <= 5) {
+      _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+    } else {
+      _dateExpController.text = "";
     }
   }
 
