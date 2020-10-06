@@ -308,7 +308,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                         labelText: messages.add_card_name_label,
                         hintText: messages.add_card_name_hint),
                     keyboardType: TextInputType.text,
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.always,
                     autocorrect: false,
                     autofocus: true,
                     validator: (_) {
@@ -352,7 +352,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                               hintText: messages.add_card_number_hint,
                               labelText: messages.add_card_number_label),
                           keyboardType: TextInputType.number,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.always,
                           autocorrect: false,
                           validator: (_) {
                             print(state.response);
@@ -380,7 +380,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             textInputAction: TextInputAction.next,
                             focusNode: _dateExpFocus,
                             inputFormatters: [_maskDateExpFormatter],
-                            autovalidate: true,
+                            autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
                             keyboardType: TextInputType.datetime,
                             decoration: InputDecoration(
@@ -408,7 +408,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             textInputAction: TextInputAction.done,
                             focusNode: _cvvFocus,
                             maxLength: 4,
-                            autovalidate: true,
+                            autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -451,7 +451,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                               errorMaxLines: 3,
                               labelText: messages.add_card_fiscal_number_label),
                           keyboardType: TextInputType.number,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.always,
                           autocorrect: false,
                           validator: (_) {
                             return state.fiscalNumberError.isNotEmpty &&
@@ -476,7 +476,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                               errorMaxLines: 3,
                               labelText: messages.add_card_tuya_code_label),
                           keyboardType: TextInputType.number,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.always,
                           autocorrect: false,
                           validator: (_) {
                             return state.tuyaCodeError.isNotEmpty &&
@@ -562,9 +562,13 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
   void _onDateExpChanged() {
     setState(() {
-      _dateExpFormatter();
-      _addCardBloc.add(DateExpChanged(context,
-          dateExp: _dateExpController.value.text.trim()));
+      // _dateExpFormatter();
+      _addCardBloc.add(
+        DateExpChanged(
+          context,
+          dateExp: _dateExpController?.value?.text?.trim() ?? "",
+        ),
+      );
     });
   }
 
@@ -584,19 +588,21 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   }
 
   void _dateExpFormatter() {
-    var text = _dateExpController.value.text;
-
+    var text = _dateExpController?.value?.text ?? "";
     switch (text.length) {
       case 0:
-        _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+        _dateExpController.value =
+            _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
       case 1:
         if (int.parse(text) > 1)
-          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+          _dateExpController.value =
+              _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
       case 2:
         if (int.parse(text) > 12 || int.parse(text) == 0)
-          _dateExpController.value = _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+          _dateExpController.value =
+              _maskDateExpFormatter.updateMask(mask: 'XX/XX');
         break;
     }
   }
