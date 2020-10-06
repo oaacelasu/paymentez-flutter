@@ -42,6 +42,3 @@ flutter:
     androidX: true
     androidPackage: com.paymentez.paymentez_mobile
     iosBundleIdentifier: com.paymentez.paymentezMobile
-
-flutter_intl:
-  enabled: true

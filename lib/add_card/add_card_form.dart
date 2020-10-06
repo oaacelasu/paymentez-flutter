@@ -384,7 +384,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autocorrect: false,
                             keyboardType: TextInputType.datetime,
                             decoration: InputDecoration(
-                                icon: Icon(Icons.person, size: 25.0),
+                                icon: Icon(Icons.calendar_today, size: 25.0),
                                 labelText:
                                     messages.add_card_expiration_date_label,
                                 hintText:
@@ -562,7 +562,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
   void _onDateExpChanged() {
     setState(() {
-      // _dateExpFormatter();
+       _dateExpFormatter();
       _addCardBloc.add(
         DateExpChanged(
           context,
@@ -597,12 +597,12 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
       case 1:
         if (int.parse(text) > 1)
           _dateExpController.value =
-              _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+              _maskDateExpFormatter.updateMask(mask: '0X/XX');
         break;
       case 2:
         if (int.parse(text) > 12 || int.parse(text) == 0)
           _dateExpController.value =
-              _maskDateExpFormatter.updateMask(mask: 'XX/XX');
+              _maskDateExpFormatter.updateMask(mask: '0X/XX');
         break;
     }
   }
