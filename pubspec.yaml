@@ -1,5 +1,6 @@
 name: paymentez_mobile
 description: A new Flutter module to use the paymentez services for Android and IOS apps.
+publish_to: 'none'
 
 version: 1.0.0+3
 
