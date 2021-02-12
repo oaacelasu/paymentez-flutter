@@ -336,7 +336,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   height: 25.0,
                                   alignment: Alignment.center,
                                   image: AssetImage(
-                                    "assets/images/person_icon.png",
+                                    "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/person_icon.png",
                                   ),
                                 ),
                                 errorMaxLines: 3,
@@ -406,7 +406,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   height: 25.0,
                                   alignment: Alignment.center,
                                   image: AssetImage(
-                                    "assets/images/camera_icon.png",
+                                    "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/camera_icon.png",
                                   ),
                                 ),
                                 errorMaxLines: 3,
@@ -496,7 +496,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                       height: 25.0,
                                       alignment: Alignment.center,
                                       image: AssetImage(
-                                        "assets/images/calendar_icon.png",
+                                        "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/calendar_icon.png",
                                       ),
                                     ),
                                     errorMaxLines: 3,
@@ -564,7 +564,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                           height: 25.0,
                                           alignment: Alignment.center,
                                           image: AssetImage(
-                                            "assets/images/cvc_icon.png",
+                                            "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/cvc_icon.png",
                                           ),
                                         ),
                                       ),
