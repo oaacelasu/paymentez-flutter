@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_io_v2/flutter_card_io_v2.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:paymentez_mobile/add_card/add_card_button.dart';
@@ -292,141 +291,358 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
           var messages = S.of(context);
           print('hola: ${_paymentezRepository.configState.isFlutterAppHost}');
 
-          return Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  widget._title ?? Container(height: 0.0, width: 0.0),
-                  TextFormField(
-                    controller: _nameController,
-                    focusNode: _nameFocus,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                        errorMaxLines: 3,
-                        icon: Icon(Icons.person, size: 25.0),
-                        labelText: messages.add_card_name_label,
-                        hintText: messages.add_card_name_hint),
-                    keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.always,
-                    autocorrect: false,
-                    autofocus: true,
-                    validator: (_) {
-                      return state.nameError.isNotEmpty &&
-                              _nameController.value.text.isNotEmpty
-                          ? state.nameError
-                          : null;
-                    },
-                    onFieldSubmitted: (v) {
-                      FocusScope.of(context).requestFocus(_numberFocus);
-                    },
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 15.0),
-                        child: InkWell(
-                          child: Icon(Icons.camera_alt,
-                              size: 25.0, color: Colors.black45),
-                          onTap: _scanCard,
-                        ),
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Form(
+                child: ListView(
+                  children: <Widget>[
+                    widget._title ?? Container(height: 0.0, width: 0.0),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 40.0,
+                                top: 4.0,
+                                bottom: 4.0,
+                              ),
+                              child: Text(
+                                messages.add_card_name_label,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextFormField(
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14.0,
+                              ),
+                              controller: _nameController,
+                              focusNode: _nameFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                icon: Image(
+                                  height: 25.0,
+                                  alignment: Alignment.center,
+                                  image: AssetImage(
+                                    "assets/images/person_icon.png",
+                                  ),
+                                ),
+                                errorMaxLines: 3,
+                                border: const OutlineInputBorder(),
+                                contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              autovalidateMode: AutovalidateMode.always,
+                              autocorrect: false,
+                              autofocus: true,
+                              validator: (_) {
+                                return state.nameError.isNotEmpty &&
+                                        _nameController.value.text.isNotEmpty
+                                    ? state.nameError
+                                    : null;
+                              },
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context)
+                                    .requestFocus(_numberFocus);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: _numberController,
-                          focusNode: _numberFocus,
-                          textInputAction: TextInputAction.next,
-                          inputFormatters: [state.numberMaskFormatter],
-                          decoration: InputDecoration(
-                              prefixIcon: cardIcon(state),
-                              errorMaxLines: 3,
-                              suffixIcon: IconButton(
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 40.0,
+                                top: 4.0,
+                                bottom: 4.0,
+                              ),
+                              child: Text(
+                                messages.add_card_number_label,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextFormField(
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14.0,
+                              ),
+                              controller: _numberController,
+                              focusNode: _numberFocus,
+                              textInputAction: TextInputAction.next,
+                              inputFormatters: [state.numberMaskFormatter],
+                              decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.camera_alt,
+                                  size: 25.0,
+                                  color: Color(0xFF78B3F9),
+                                ),
+                                errorMaxLines: 3,
+                                suffixIcon: IconButton(
                                   icon: Icon(Icons.close),
-                                  onPressed: () => setState(() {
-                                        Future.delayed(
-                                                Duration(milliseconds: 50))
-                                            .then((_) {
-                                          _numberController.clear();
-                                        });
-                                      })),
-                              hintText: messages.add_card_number_hint,
-                              labelText: messages.add_card_number_label),
-                          keyboardType: TextInputType.number,
-                          autovalidateMode: AutovalidateMode.always,
-                          autocorrect: false,
-                          validator: (_) {
-                            print(state.response);
-                            return state.numberError.isNotEmpty &&
-                                    _numberController.value.text.isNotEmpty &&
-                                    isButtonClicked
-                                ? state.numberError
-                                : null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(_dateExpFocus);
-                          },
-                        ),
+                                  onPressed: () => setState(
+                                    () {
+                                      Future.delayed(Duration(milliseconds: 50))
+                                          .then((_) {
+                                        _numberController.clear();
+                                      });
+                                    },
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(),
+                                contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                // labelText: messages.add_card_number_label,
+                              ),
+                              keyboardType: TextInputType.number,
+                              autovalidateMode: AutovalidateMode.always,
+                              autocorrect: false,
+                              validator: (_) {
+                                print(state.response);
+                                return state.numberError.isNotEmpty &&
+                                        _numberController
+                                            .value.text.isNotEmpty &&
+                                        isButtonClicked
+                                    ? state.numberError
+                                    : null;
+                              },
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context)
+                                    .requestFocus(_dateExpFocus);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Visibility(
-                    visible: !isTuyaForm(state),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: new TextFormField(
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Visibility(
+                      visible: !isTuyaForm(state),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 40.0,
+                                      top: 4.0,
+                                      bottom: 4.0,
+                                    ),
+                                    child: Text(
+                                      messages.add_card_expiration_date_label,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                new TextFormField(
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 14.0,
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  focusNode: _dateExpFocus,
+                                  inputFormatters: [_maskDateExpFormatter],
+                                  autovalidateMode: AutovalidateMode.always,
+                                  autocorrect: false,
+                                  keyboardType: TextInputType.datetime,
+                                  decoration: InputDecoration(
+                                    icon: Image(
+                                      height: 25.0,
+                                      alignment: Alignment.center,
+                                      image: AssetImage(
+                                        "assets/images/calendar_icon.png",
+                                      ),
+                                    ),
+                                    errorMaxLines: 3,
+                                    border: const OutlineInputBorder(),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 10.0,
+                                    ),
+                                  ),
+                                  controller: _dateExpController,
+                                  validator: (_) {
+                                    return state.dateExpError.isNotEmpty &&
+                                            _dateExpController
+                                                .value.text.isNotEmpty
+                                        ? state.dateExpError
+                                        : null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context)
+                                        .requestFocus(_cvvFocus);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 40.0,
+                                      top: 4.0,
+                                      bottom: 4.0,
+                                    ),
+                                    child: Text(
+                                      messages.add_card_cvc_label,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                new TextFormField(
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 14.0,
+                                  ),
+                                  textInputAction: TextInputAction.done,
+                                  focusNode: _cvvFocus,
+                                  maxLength: 4,
+                                  autovalidateMode: AutovalidateMode.always,
+                                  autocorrect: false,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Image(
+                                          height: 25.0,
+                                          alignment: Alignment.center,
+                                          image: AssetImage(
+                                            "assets/images/cvc_icon.png",
+                                          ),
+                                        ),
+                                      ),
+                                      counterText: '',
+                                      border: const OutlineInputBorder(),
+                                      contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 10.0,
+                                      ),
+                                      errorMaxLines: 3),
+                                  controller: _cvvController,
+                                  validator: (_) {
+                                    return state.cvvError.isNotEmpty &&
+                                            _cvvController.value.text.isNotEmpty
+                                        ? state.cvvError
+                                        : null;
+                                  },
+                                  onFieldSubmitted: (v) {
+                                    if (isAddCardButtonEnabled(state))
+                                      _onFormSubmitted();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      replacement: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14.0,
+                            ),
+                            controller: _fiscalNumberController,
+                            focusNode: _fiscalNumberFocus,
                             textInputAction: TextInputAction.next,
-                            focusNode: _dateExpFocus,
-                            inputFormatters: [_maskDateExpFormatter],
+                            maxLength: 15,
+                            decoration: InputDecoration(
+                                icon: Icon(FontAwesomeIcons.idCard, size: 25.0),
+                                counterText: '',
+                                counterStyle: TextStyle(fontSize: 0),
+                                errorMaxLines: 3,
+                                labelText:
+                                    messages.add_card_fiscal_number_label),
+                            keyboardType: TextInputType.number,
                             autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
-                            keyboardType: TextInputType.datetime,
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.calendar_today, size: 25.0),
-                                labelText:
-                                    messages.add_card_expiration_date_label,
-                                hintText:
-                                    messages.add_card_expiration_date_hint,
-                                errorMaxLines: 3),
-                            controller: _dateExpController,
                             validator: (_) {
-                              return state.dateExpError.isNotEmpty &&
-                                      _dateExpController.value.text.isNotEmpty
-                                  ? state.dateExpError
+                              return state.fiscalNumberError.isNotEmpty &&
+                                      _fiscalNumberController
+                                          .value.text.isNotEmpty
+                                  ? state.fiscalNumberError
                                   : null;
                             },
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(_cvvFocus);
+                              FocusScope.of(context)
+                                  .requestFocus(_tuyaCodeFocus);
                             },
                           ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: new TextFormField(
+                          TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14.0,
+                            ),
+                            controller: _tuyaCodeController,
+                            focusNode: _tuyaCodeFocus,
                             textInputAction: TextInputAction.done,
-                            focusNode: _cvvFocus,
-                            maxLength: 4,
-                            autovalidateMode: AutovalidateMode.always,
-                            autocorrect: false,
-                            keyboardType: TextInputType.number,
+                            maxLength: 8,
                             decoration: InputDecoration(
                                 icon: Icon(Icons.https, size: 25.0),
                                 counterText: '',
                                 counterStyle: TextStyle(fontSize: 0),
-                                labelText: state.cardBin?.cvvLength == 4
-                                    ? messages.add_card_cvc_amex_label
-                                    : messages.add_card_cvc_label,
-                                hintText: state.cardBin?.cvvLength == 4
-                                    ? messages.add_card_cvc_amex_hint
-                                    : messages.add_card_cvc_hint,
-                                errorMaxLines: 3),
-                            controller: _cvvController,
+                                errorMaxLines: 3,
+                                labelText: messages.add_card_tuya_code_label),
+                            keyboardType: TextInputType.number,
+                            autovalidateMode: AutovalidateMode.always,
+                            autocorrect: false,
                             validator: (_) {
-                              return state.cvvError.isNotEmpty &&
-                                      _cvvController.value.text.isNotEmpty
-                                  ? state.cvvError
+                              return state.tuyaCodeError.isNotEmpty &&
+                                      _tuyaCodeController.value.text.isNotEmpty
+                                  ? state.tuyaCodeError
                                   : null;
                             },
                             onFieldSubmitted: (v) {
@@ -434,79 +650,25 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                 _onFormSubmitted();
                             },
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    replacement: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _fiscalNumberController,
-                          focusNode: _fiscalNumberFocus,
-                          textInputAction: TextInputAction.next,
-                          maxLength: 15,
-                          decoration: InputDecoration(
-                              icon: Icon(FontAwesomeIcons.idCard, size: 25.0),
-                              counterText: '',
-                              counterStyle: TextStyle(fontSize: 0),
-                              errorMaxLines: 3,
-                              labelText: messages.add_card_fiscal_number_label),
-                          keyboardType: TextInputType.number,
-                          autovalidateMode: AutovalidateMode.always,
-                          autocorrect: false,
-                          validator: (_) {
-                            return state.fiscalNumberError.isNotEmpty &&
-                                    _fiscalNumberController
-                                        .value.text.isNotEmpty
-                                ? state.fiscalNumberError
-                                : null;
-                          },
-                          onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(_tuyaCodeFocus);
-                          },
-                        ),
-                        TextFormField(
-                          controller: _tuyaCodeController,
-                          focusNode: _tuyaCodeFocus,
-                          textInputAction: TextInputAction.done,
-                          maxLength: 8,
-                          decoration: InputDecoration(
-                              icon: Icon(Icons.https, size: 25.0),
-                              counterText: '',
-                              counterStyle: TextStyle(fontSize: 0),
-                              errorMaxLines: 3,
-                              labelText: messages.add_card_tuya_code_label),
-                          keyboardType: TextInputType.number,
-                          autovalidateMode: AutovalidateMode.always,
-                          autocorrect: false,
-                          validator: (_) {
-                            return state.tuyaCodeError.isNotEmpty &&
-                                    _tuyaCodeController.value.text.isNotEmpty
-                                ? state.tuyaCodeError
-                                : null;
-                          },
-                          onFieldSubmitted: (v) {
-                            if (isAddCardButtonEnabled(state))
-                              _onFormSubmitted();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  widget._aboveButton ?? Container(height: 0.0, width: 0.0),
-                  widget._summitButton != null
-                      ? widget._summitButton(isAddCardButtonEnabled(state)
-                          ? _onFormSubmitted
-                          : null)
-                      : Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: AddCardButton(
-                            onPressed: isAddCardButtonEnabled(state)
-                                ? _onFormSubmitted
-                                : null,
+                    widget._aboveButton ?? Container(height: 0.0, width: 0.0),
+                    widget._summitButton != null
+                        ? widget._summitButton(isAddCardButtonEnabled(state)
+                            ? _onFormSubmitted
+                            : null)
+                        : Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: AddCardButton(
+                              onPressed: isAddCardButtonEnabled(state)
+                                  ? _onFormSubmitted
+                                  : null,
+                            ),
                           ),
-                        ),
-                  widget._belowButton ?? Container(height: 0.0, width: 0.0),
-                ],
+                    widget._belowButton ?? Container(height: 0.0, width: 0.0),
+                  ],
+                ),
               ),
             ),
           );
@@ -515,36 +677,17 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
     );
   }
 
-  Widget cardIcon(AddCardState state) {
-    var image =
-        '${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/card_generic.png';
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: 25.0,
-        child: Visibility(
-          visible: (state.cardBin?.urlLogo ?? '').isEmpty,
-          child: Image.asset(image),
-          replacement: SvgPicture.network(
-            state.cardBin?.urlLogo ?? '',
-            semanticsLabel: 'card_bin_image',
-            placeholderBuilder: (BuildContext context) =>
-                FadeInImage.assetNetwork(
-                    placeholder: image,
-                    image:
-                        state.cardBin?.urlLogoPng?.replaceAll('svg', 'png') ??
-                            ''),
-          ),
-        ),
-      ),
-    );
-  }
-
   SizedBox cameraIcon() {
     return SizedBox(
       width: 25.0,
       child: InkWell(
-          child: Icon(Icons.photo_camera, size: 25.0), onTap: _scanCard),
+        child: Icon(
+          Icons.photo_camera,
+          size: 25.0,
+          color: Color(0xff78B3F9),
+        ),
+        onTap: _scanCard,
+      ),
     );
   }
 
@@ -562,7 +705,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
 
   void _onDateExpChanged() {
     setState(() {
-       _dateExpFormatter();
+      _dateExpFormatter();
       _addCardBloc.add(
         DateExpChanged(
           context,
