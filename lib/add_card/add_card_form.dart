@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_io_v2/flutter_card_io_v2.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:paymentez_mobile/add_card/add_card_button.dart';
@@ -400,10 +401,13 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                               textInputAction: TextInputAction.next,
                               inputFormatters: [state.numberMaskFormatter],
                               decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.camera_alt,
-                                  size: 25.0,
-                                  color: Color(0xFF78B3F9),
+                                prefixIcon: cardIcon(state),
+                                icon: Image(
+                                  height: 25.0,
+                                  alignment: Alignment.center,
+                                  image: AssetImage(
+                                    "assets/images/camera_icon.png",
+                                  ),
                                 ),
                                 errorMaxLines: 3,
                                 suffixIcon: IconButton(
@@ -673,6 +677,31 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget cardIcon(AddCardState state) {
+    var image =
+        '${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/card_generic.png';
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: 25.0,
+        child: Visibility(
+          visible: (state.cardBin?.urlLogo ?? '').isEmpty,
+          child: Image.asset(image),
+          replacement: SvgPicture.network(
+            state.cardBin?.urlLogo ?? '',
+            semanticsLabel: 'card_bin_image',
+            placeholderBuilder: (BuildContext context) =>
+                FadeInImage.assetNetwork(
+                    placeholder: image,
+                    image:
+                        state.cardBin?.urlLogoPng?.replaceAll('svg', 'png') ??
+                            ''),
+          ),
+        ),
       ),
     );
   }
