@@ -21,11 +21,11 @@ class AddCardForm extends StatefulWidget {
 
   AddCardForm(
       {Key key,
-      @required PaymentezRepository paymentezRepository,
-      Widget title,
-      Widget aboveButton,
-      Function(Function) summitButton,
-      Widget belowButton})
+        @required PaymentezRepository paymentezRepository,
+        Widget title,
+        Widget aboveButton,
+        Function(Function) summitButton,
+        Widget belowButton})
       : assert(paymentezRepository != null),
         _paymentezRepository = paymentezRepository,
         _aboveButton = aboveButton,
@@ -33,15 +33,15 @@ class AddCardForm extends StatefulWidget {
         _belowButton = belowButton,
         _title = title,
         super(
-          key: key,
-        );
+        key: key,
+      );
 
   State<AddCardForm> createState() => _AddCardFormState();
 }
 
 class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   final MaskTextInputFormatter _maskDateExpFormatter =
-      MaskTextInputFormatter(mask: 'XX/XX', filter: AddCardState.filter);
+  MaskTextInputFormatter(mask: 'XX/XX', filter: AddCardState.filter);
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
@@ -61,20 +61,20 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   bool isButtonClicked = false;
 
   bool get isPopulated => _addCardBloc.state.cardBin?.cardType != 'ex' &&
-          _addCardBloc.state.cardBin?.cardType != 'ak'
+      _addCardBloc.state.cardBin?.cardType != 'ak'
       ? (_nameController.text.isNotEmpty &&
-          _numberController.text.isNotEmpty &&
-          _dateExpController.text.isNotEmpty &&
-          _cvvController.text.isNotEmpty)
+      _numberController.text.isNotEmpty &&
+      _dateExpController.text.isNotEmpty &&
+      _cvvController.text.isNotEmpty)
       : (_nameController.text.isNotEmpty &&
-          _numberController.text.isNotEmpty &&
-          _fiscalNumberController.text.isNotEmpty &&
-          _tuyaCodeController.text.isNotEmpty);
+      _numberController.text.isNotEmpty &&
+      _fiscalNumberController.text.isNotEmpty &&
+      _tuyaCodeController.text.isNotEmpty);
 
   bool isAddCardButtonEnabled(AddCardState state) {
     return (isTuyaForm(state)
-            ? state.isTuyaFormValid
-            : state.isFormValid || !isButtonClicked) &&
+        ? state.isTuyaFormValid
+        : state.isFormValid || !isButtonClicked) &&
         isPopulated &&
         !state.isSubmitting;
   }
@@ -141,19 +141,19 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       details = new Map<String, dynamic>.from(await FlutterCardIoV2.scanCard({
-            "requireExpiry": true,
-            "scanExpiry": true,
-            "requireCVV": false,
-            "requirePostalCode": false,
-            "restrictPostalCodeToNumericOnly": false,
-            "requireCardHolderName": true,
-            "hideCardIOLogo": true,
-            "useCardIOLogo": false,
-            "usePayPalActionbarIcon": false,
-            "suppressManualEntry": true,
-            "suppressConfirmation": true,
-            "scanInstructions": S.of(context).add_card_camera_instructions,
-          }) ??
+        "requireExpiry": true,
+        "scanExpiry": true,
+        "requireCVV": false,
+        "requirePostalCode": false,
+        "restrictPostalCodeToNumericOnly": false,
+        "requireCardHolderName": true,
+        "hideCardIOLogo": true,
+        "useCardIOLogo": false,
+        "usePayPalActionbarIcon": false,
+        "suppressManualEntry": true,
+        "suppressConfirmation": true,
+        "scanInstructions": S.of(context).add_card_camera_instructions,
+      }) ??
           new Map());
       print('2');
     } on PlatformException catch (e) {
@@ -352,7 +352,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autofocus: true,
                             validator: (_) {
                               return state.nameError.isNotEmpty &&
-                                      _nameController.value.text.isNotEmpty
+                                  _nameController.value.text.isNotEmpty
                                   ? state.nameError
                                   : null;
                             },
@@ -410,7 +410,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.close),
                                 onPressed: () => setState(
-                                  () {
+                                      () {
                                     Future.delayed(Duration(milliseconds: 50))
                                         .then((_) {
                                       _numberController.clear();
@@ -431,8 +431,8 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             validator: (_) {
                               print(state.response);
                               return state.numberError.isNotEmpty &&
-                                      _numberController.value.text.isNotEmpty &&
-                                      isButtonClicked
+                                  _numberController.value.text.isNotEmpty &&
+                                  isButtonClicked
                                   ? state.numberError
                                   : null;
                             },
@@ -504,8 +504,8 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   controller: _dateExpController,
                                   validator: (_) {
                                     return state.dateExpError.isNotEmpty &&
-                                            _dateExpController
-                                                .value.text.isNotEmpty
+                                        _dateExpController
+                                            .value.text.isNotEmpty
                                         ? state.dateExpError
                                         : null;
                                   },
@@ -554,7 +554,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   decoration: InputDecoration(
                                       icon: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                        const EdgeInsets.only(left: 15.0),
                                         child: Image(
                                           height: 25.0,
                                           alignment: Alignment.center,
@@ -573,7 +573,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   controller: _cvvController,
                                   validator: (_) {
                                     return state.cvvError.isNotEmpty &&
-                                            _cvvController.value.text.isNotEmpty
+                                        _cvvController.value.text.isNotEmpty
                                         ? state.cvvError
                                         : null;
                                   },
@@ -604,14 +604,14 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                 counterStyle: TextStyle(fontSize: 0),
                                 errorMaxLines: 3,
                                 labelText:
-                                    messages.add_card_fiscal_number_label),
+                                messages.add_card_fiscal_number_label),
                             keyboardType: TextInputType.number,
                             autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
                             validator: (_) {
                               return state.fiscalNumberError.isNotEmpty &&
-                                      _fiscalNumberController
-                                          .value.text.isNotEmpty
+                                  _fiscalNumberController
+                                      .value.text.isNotEmpty
                                   ? state.fiscalNumberError
                                   : null;
                             },
@@ -640,7 +640,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autocorrect: false,
                             validator: (_) {
                               return state.tuyaCodeError.isNotEmpty &&
-                                      _tuyaCodeController.value.text.isNotEmpty
+                                  _tuyaCodeController.value.text.isNotEmpty
                                   ? state.tuyaCodeError
                                   : null;
                             },
@@ -655,16 +655,16 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                     widget._aboveButton ?? Container(height: 0.0, width: 0.0),
                     widget._summitButton != null
                         ? widget._summitButton(isAddCardButtonEnabled(state)
-                            ? _onFormSubmitted
-                            : null)
+                        ? _onFormSubmitted
+                        : null)
                         : Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: AddCardButton(
-                              onPressed: isAddCardButtonEnabled(state)
-                                  ? _onFormSubmitted
-                                  : null,
-                            ),
-                          ),
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: AddCardButton(
+                        onPressed: isAddCardButtonEnabled(state)
+                            ? _onFormSubmitted
+                            : null,
+                      ),
+                    ),
                     widget._belowButton ?? Container(height: 0.0, width: 0.0),
                   ],
                 ),
@@ -693,8 +693,8 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 FadeInImage.assetNetwork(
                     placeholder: image,
                     image:
-                        state.cardBin?.urlLogoPng?.replaceAll('svg', 'png') ??
-                            ''),
+                    state.cardBin?.urlLogoPng?.replaceAll('svg', 'png') ??
+                        ''),
           ),
         ),
       ),
@@ -782,12 +782,12 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
         token: null,
         message: null,
         expiryYear: Validators.convertYearTo4Digits(int.parse(_dateExpController
-                .value.text
-                .split(RegExp(r'(\/)'))
-                .elementAt(1)))
+            .value.text
+            .split(RegExp(r'(\/)'))
+            .elementAt(1)))
             .toString(),
         expiryMonth:
-            _dateExpController.value.text.split(RegExp(r'(\/)')).elementAt(0),
+        _dateExpController.value.text.split(RegExp(r'(\/)')).elementAt(0),
         transactionReference: null,
         type: _addCardBloc.state.cardBin?.cardType,
         number: _numberController.value.text.replaceAll(' ', ''),
