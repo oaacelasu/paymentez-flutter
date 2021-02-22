@@ -56,6 +56,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   final _fiscalNumberFocus = FocusNode();
   final _tuyaCodeFocus = FocusNode();
   AddCardBloc _addCardBloc;
+
   PaymentezRepository get _paymentezRepository => widget._paymentezRepository;
   bool isButtonClicked = false;
 
@@ -300,154 +301,148 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 child: ListView(
                   children: <Widget>[
                     widget._title ?? Container(height: 0.0, width: 0.0),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 40.0,
-                                top: 4.0,
-                                bottom: 4.0,
-                              ),
-                              child: Text(
-                                messages.add_card_name_label,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 11.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 40.0,
+                              top: 4.0,
+                              bottom: 4.0,
                             ),
-                          ),
-                          Container(
-                            child: TextFormField(
+                            child: Text(
+                              messages.add_card_name_label,
+                              textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 14.0,
+                                color: Colors.grey,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w600,
                               ),
-                              controller: _nameController,
-                              focusNode: _nameFocus,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                icon: Image(
-                                  height: 25.0,
-                                  alignment: Alignment.center,
-                                  image: AssetImage(
-                                    "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/person_icon.png",
-                                  ),
-                                ),
-                                errorMaxLines: 3,
-                                border: const OutlineInputBorder(),
-                                contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                  horizontal: 10.0,
-                                ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              autovalidateMode: AutovalidateMode.always,
-                              autocorrect: false,
-                              autofocus: true,
-                              validator: (_) {
-                                return state.nameError.isNotEmpty &&
-                                        _nameController.value.text.isNotEmpty
-                                    ? state.nameError
-                                    : null;
-                              },
-                              onFieldSubmitted: (v) {
-                                FocusScope.of(context)
-                                    .requestFocus(_numberFocus);
-                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14.0,
+                            ),
+                            controller: _nameController,
+                            focusNode: _nameFocus,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              icon: Image(
+                                height: 25.0,
+                                alignment: Alignment.center,
+                                image: AssetImage(
+                                  "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/person_icon.png",
+                                ),
+                              ),
+                              errorMaxLines: 3,
+                              border: const OutlineInputBorder(),
+                              contentPadding: new EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 10.0,
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                            autovalidateMode: AutovalidateMode.always,
+                            autocorrect: false,
+                            autofocus: true,
+                            validator: (_) {
+                              return state.nameError.isNotEmpty &&
+                                      _nameController.value.text.isNotEmpty
+                                  ? state.nameError
+                                  : null;
+                            },
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(_numberFocus);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 40.0,
-                                top: 4.0,
-                                bottom: 4.0,
-                              ),
-                              child: Text(
-                                messages.add_card_number_label,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 11.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 40.0,
+                              top: 4.0,
+                              bottom: 4.0,
                             ),
-                          ),
-                          Container(
-                            child: TextFormField(
+                            child: Text(
+                              messages.add_card_number_label,
+                              textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 14.0,
+                                color: Colors.grey,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w600,
                               ),
-                              controller: _numberController,
-                              focusNode: _numberFocus,
-                              textInputAction: TextInputAction.next,
-                              inputFormatters: [state.numberMaskFormatter],
-                              decoration: InputDecoration(
-                                prefixIcon: cardIcon(state),
-                                icon: Image(
-                                  height: 25.0,
-                                  alignment: Alignment.center,
-                                  image: AssetImage(
-                                    "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/camera_icon.png",
-                                  ),
-                                ),
-                                errorMaxLines: 3,
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () => setState(
-                                    () {
-                                      Future.delayed(Duration(milliseconds: 50))
-                                          .then((_) {
-                                        _numberController.clear();
-                                      });
-                                    },
-                                  ),
-                                ),
-                                border: const OutlineInputBorder(),
-                                contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                  horizontal: 10.0,
-                                ),
-                                // labelText: messages.add_card_number_label,
-                              ),
-                              keyboardType: TextInputType.number,
-                              autovalidateMode: AutovalidateMode.always,
-                              autocorrect: false,
-                              validator: (_) {
-                                print(state.response);
-                                return state.numberError.isNotEmpty &&
-                                        _numberController
-                                            .value.text.isNotEmpty &&
-                                        isButtonClicked
-                                    ? state.numberError
-                                    : null;
-                              },
-                              onFieldSubmitted: (v) {
-                                FocusScope.of(context)
-                                    .requestFocus(_dateExpFocus);
-                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14.0,
+                            ),
+                            controller: _numberController,
+                            focusNode: _numberFocus,
+                            textInputAction: TextInputAction.next,
+                            inputFormatters: [state.numberMaskFormatter],
+                            decoration: InputDecoration(
+                              prefixIcon: cardIcon(state),
+                              icon: Image(
+                                height: 25.0,
+                                alignment: Alignment.center,
+                                image: AssetImage(
+                                  "${_paymentezRepository.configState.isFlutterAppHost ? 'packages/paymentez_mobile/' : ''}assets/images/camera_icon.png",
+                                ),
+                              ),
+                              errorMaxLines: 3,
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.close),
+                                onPressed: () => setState(
+                                  () {
+                                    Future.delayed(Duration(milliseconds: 50))
+                                        .then((_) {
+                                      _numberController.clear();
+                                    });
+                                  },
+                                ),
+                              ),
+                              border: const OutlineInputBorder(),
+                              contentPadding: new EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 10.0,
+                              ),
+                              // labelText: messages.add_card_number_label,
+                            ),
+                            keyboardType: TextInputType.number,
+                            autovalidateMode: AutovalidateMode.always,
+                            autocorrect: false,
+                            validator: (_) {
+                              print(state.response);
+                              return state.numberError.isNotEmpty &&
+                                      _numberController.value.text.isNotEmpty &&
+                                      isButtonClicked
+                                  ? state.numberError
+                                  : null;
+                            },
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context)
+                                  .requestFocus(_dateExpFocus);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 20.0,
