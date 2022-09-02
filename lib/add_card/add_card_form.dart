@@ -201,7 +201,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
     return BlocListener<AddCardBloc, AddCardState>(
       listener: (context, state) {
         if (state.isFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -220,7 +220,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
             );
         }
         if (state.isSubmitting) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -277,7 +277,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
               break;
           }
 
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(_snackBar);
         }

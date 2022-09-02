@@ -33,7 +33,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with AfterLayoutMixin<App> {
-  List<LocalizationsDelegate> delegates = List<LocalizationsDelegate>();
+  List<LocalizationsDelegate> delegates = <LocalizationsDelegate>[];
 
   @override
   void initState() {
