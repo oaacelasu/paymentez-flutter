@@ -8,17 +8,17 @@ class AddCardState extends Equatable {
   static const String numberDefaultMask = 'XXXX XXXX XXXX XXXX';
   static final Map<String, RegExp> filter = {"X": RegExp(r'[0-9]')};
 
-  final CardBinModel cardBin;
-  final MaskTextInputFormatter numberMaskFormatter;
-  final String nameError;
-  final String numberError;
-  final String dateExpError;
-  final String cvvError;
-  final String fiscalNumberError;
-  final String tuyaCodeError;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final bool isFailure;
+  final CardBinModel? cardBin;
+  final MaskTextInputFormatter? numberMaskFormatter;
+  final String? nameError;
+  final String? numberError;
+  final String? dateExpError;
+  final String? cvvError;
+  final String? fiscalNumberError;
+  final String? tuyaCodeError;
+  final bool? isSubmitting;
+  final bool? isSuccess;
+  final bool? isFailure;
   final dynamic response;
 
   bool get isFormValid =>
@@ -28,18 +28,18 @@ class AddCardState extends Equatable {
       '$nameError$numberError$fiscalNumberError$tuyaCodeError'.isEmpty;
 
   AddCardState({
-    @required this.cardBin,
-    @required this.numberMaskFormatter,
-    @required this.nameError,
-    @required this.numberError,
-    @required this.dateExpError,
-    @required this.cvvError,
-    @required this.fiscalNumberError,
-    @required this.tuyaCodeError,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
-    @required this.response,
+    required this.cardBin,
+    required this.numberMaskFormatter,
+    required this.nameError,
+    required this.numberError,
+    required this.dateExpError,
+    required this.cvvError,
+    required this.fiscalNumberError,
+    required this.tuyaCodeError,
+    required this.isSubmitting,
+    required this.isSuccess,
+    required this.isFailure,
+    required this.response,
   });
 
   AddCardState empty() {
@@ -88,18 +88,18 @@ class AddCardState extends Equatable {
   }
 
   AddCardState updateNumber({
-    String number,
-    CardBinModel cardBin,
-    String numberError,
+    required String number,
+    CardBinModel? cardBin,
+    String? numberError,
   }) {
-    var newNumberMaskFormatter =
+    MaskTextInputFormatter? newNumberMaskFormatter =
         MaskTextInputFormatter(mask: numberDefaultMask, filter: filter);
 
     if (number.isNotEmpty && numberMaskFormatter != null)
       newNumberMaskFormatter = numberMaskFormatter;
 
     if (cardBin != null)
-      newNumberMaskFormatter.updateMask(mask: cardBin.cardMask ?? numberDefaultMask);
+      newNumberMaskFormatter!.updateMask(mask: cardBin.cardMask);
 
     return copyWith(
       cardBin: cardBin,
@@ -113,11 +113,11 @@ class AddCardState extends Equatable {
   }
 
   AddCardState update(
-      {String nameError,
-      String dateExpError,
-      String cvvError,
-      String fiscalNumberError,
-      String tuyaCodeError}) {
+      {String? nameError,
+      String? dateExpError,
+      String? cvvError,
+      String? fiscalNumberError,
+      String? tuyaCodeError}) {
     return copyWith(
       nameError: nameError,
       dateExpError: dateExpError,
@@ -144,17 +144,17 @@ class AddCardState extends Equatable {
       isFailure: null, response: null);
 
   AddCardState copyWith({
-    CardBinModel cardBin,
-    MaskTextInputFormatter numberMaskFormatter,
-    String nameError,
-    String numberError,
-    String dateExpError,
-    String cvvError,
-    String fiscalNumberError,
-    String tuyaCodeError,
-    bool isSubmitting,
-    bool isSuccess,
-    bool isFailure,
+    CardBinModel? cardBin,
+    MaskTextInputFormatter? numberMaskFormatter,
+    String? nameError,
+    String? numberError,
+    String? dateExpError,
+    String? cvvError,
+    String? fiscalNumberError,
+    String? tuyaCodeError,
+    bool? isSubmitting,
+    bool? isSuccess,
+    bool? isFailure,
     dynamic response,
   }) {
     return AddCardState(
@@ -192,7 +192,7 @@ class AddCardState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         cardBin,
         numberMaskFormatter,
         nameError,

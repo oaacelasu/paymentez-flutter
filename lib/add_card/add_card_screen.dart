@@ -8,7 +8,7 @@ import 'package:paymentez_mobile/repository/paymentez_repository.dart';
 class AddCardScreen extends StatelessWidget {
   final PaymentezRepository _paymentezRepository;
 
-  AddCardScreen({Key key, @required PaymentezRepository paymentezRepository})
+  AddCardScreen({Key? key, required PaymentezRepository paymentezRepository})
       : assert(paymentezRepository != null),
         _paymentezRepository = paymentezRepository,
         super(key: key);

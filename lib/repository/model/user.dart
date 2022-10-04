@@ -3,26 +3,26 @@ import 'package:flutter/material.dart';
 
 @immutable
 class User extends Equatable {
-  final String id;
-  final String email;
-  final String ipAddress;
-  final String fiscalNumber;
+  final String? id;
+  final String? email;
+  final String? ipAddress;
+  final String? fiscalNumber;
 
   User({
-    @required String id,
-    @required String email,
-    @required String ipAddress,
-    @required String fiscalNumber,
+    required String? id,
+    required String? email,
+    required String? ipAddress,
+    required String? fiscalNumber,
   })  : id = id,
         email = email,
         ipAddress = ipAddress,
         fiscalNumber = fiscalNumber;
 
   User copyWith({
-    String id,
-    String email,
-    String ipAddress,
-    String fiscalNumber,
+    String? id,
+    String? email,
+    String? ipAddress,
+    String? fiscalNumber,
   }) =>
       User(
         id: id ?? this.id,
@@ -48,7 +48,7 @@ class User extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         email,
         ipAddress,

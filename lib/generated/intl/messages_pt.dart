@@ -19,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt';
 
-  final messages = _notInlinedMessages(_notInlinedMessages);
+  final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "add_card_camera_instructions" : MessageLookupByLibrary.simpleMessage("Localize a frente do seu cartão\ndentro das guias e aguarde enquanto\no sistema captura a foto"),
     "add_card_cvc_amex_hint" : MessageLookupByLibrary.simpleMessage("1234"),

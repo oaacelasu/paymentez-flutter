@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,20 +16,19 @@ import 'package:paymentez_mobile/utils/validators.dart';
 
 class AddCardForm extends StatefulWidget {
   final PaymentezRepository _paymentezRepository;
-  final Widget _title;
-  final Widget _aboveButton;
-  final Function(Function) _summitButton;
-  final Widget _belowButton;
+  final Widget? _title;
+  final Widget? _aboveButton;
+  final Function(Function?)? _summitButton;
+  final Widget? _belowButton;
 
   AddCardForm(
-      {Key key,
-      @required PaymentezRepository paymentezRepository,
-      Widget title,
-      Widget aboveButton,
-      Function(Function) summitButton,
-      Widget belowButton})
-      : assert(paymentezRepository != null),
-        _paymentezRepository = paymentezRepository,
+      {Key? key,
+      required PaymentezRepository paymentezRepository,
+      Widget? title,
+      Widget? aboveButton,
+      Function(Function?)? summitButton,
+      Widget? belowButton})
+      : _paymentezRepository = paymentezRepository,
         _aboveButton = aboveButton,
         _summitButton = summitButton,
         _belowButton = belowButton,
@@ -55,7 +56,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   final _cvvFocus = FocusNode();
   final _fiscalNumberFocus = FocusNode();
   final _tuyaCodeFocus = FocusNode();
-  AddCardBloc _addCardBloc;
+  late AddCardBloc _addCardBloc;
 
   PaymentezRepository get _paymentezRepository => widget._paymentezRepository;
   bool isButtonClicked = false;
@@ -76,24 +77,24 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
             ? state.isTuyaFormValid
             : state.isFormValid || !isButtonClicked) &&
         isPopulated &&
-        !state.isSubmitting;
+        !state.isSubmitting!;
   }
 
   bool isNumberOk(AddCardState state) {
     return _numberController.value.text.isNotEmpty &&
-        state.numberError.isEmpty &&
+        state.numberError!.isEmpty &&
         _numberFocus.hasFocus;
   }
 
   bool isFiscalNumberOk(AddCardState state) {
     return _fiscalNumberController.value.text.isNotEmpty &&
-        state.fiscalNumberError.isEmpty &&
+        state.fiscalNumberError!.isEmpty &&
         _fiscalNumberFocus.hasFocus;
   }
 
   bool isDateExpOk(AddCardState state) {
     return _dateExpController.value.text.isNotEmpty &&
-        state.dateExpError.isEmpty &&
+        state.dateExpError!.isEmpty &&
         _dateExpFocus.hasFocus;
   }
 
@@ -140,7 +141,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
     print('1');
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      details = new Map<String, dynamic>.from(await FlutterCardIoV2.scanCard({
+      details = new Map<String, dynamic>.from(await (FlutterCardIoV2.scanCard({
             "requireExpiry": true,
             "scanExpiry": true,
             "requireCVV": false,
@@ -152,8 +153,8 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
             "usePayPalActionbarIcon": false,
             "suppressManualEntry": true,
             "suppressConfirmation": true,
-            "scanInstructions": S.of(context).add_card_camera_instructions,
-          }) ??
+            "scanInstructions": S.of(context)!.add_card_camera_instructions,
+          }) as FutureOr<Map<dynamic, dynamic>?>) ??
           new Map());
       print('2');
     } on PlatformException catch (e) {
@@ -200,7 +201,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return BlocListener<AddCardBloc, AddCardState>(
       listener: (context, state) {
-        if (state.isFailure) {
+        if (state.isFailure!) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -219,7 +220,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
               ),
             );
         }
-        if (state.isSubmitting) {
+        if (state.isSubmitting!) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -227,14 +228,14 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: Text(S.of(context).loading_lbl)),
+                    Expanded(child: Text(S.of(context)!.loading_lbl)),
                     CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
         }
-        if (state.isSuccess) {
+        if (state.isSuccess!) {
           var _card = state.response as CardModel;
           SnackBar _snackBar;
 
@@ -244,7 +245,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: Text(_card.status)),
+                    Expanded(child: Text(_card.status!)),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -256,7 +257,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: Text(_card.message)),
+                    Expanded(child: Text(_card.message!)),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -268,7 +269,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: Text(_card.message)),
+                    Expanded(child: Text(_card.message!)),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -290,7 +291,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
       },
       child: BlocBuilder<AddCardBloc, AddCardState>(
         builder: (context, state) {
-          var messages = S.of(context);
+          var messages = S.of(context)!;
           print('hola: ${_paymentezRepository.configState.isFlutterAppHost}');
 
           return GestureDetector(
@@ -351,7 +352,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autocorrect: false,
                             autofocus: true,
                             validator: (_) {
-                              return state.nameError.isNotEmpty &&
+                              return state.nameError!.isNotEmpty &&
                                       _nameController.value.text.isNotEmpty
                                   ? state.nameError
                                   : null;
@@ -396,7 +397,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             controller: _numberController,
                             focusNode: _numberFocus,
                             textInputAction: TextInputAction.next,
-                            inputFormatters: [state.numberMaskFormatter],
+                            inputFormatters: [state.numberMaskFormatter!],
                             decoration: InputDecoration(
                               prefixIcon: cardIcon(state),
                               icon: Image(
@@ -430,7 +431,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autocorrect: false,
                             validator: (_) {
                               print(state.response);
-                              return state.numberError.isNotEmpty &&
+                              return state.numberError!.isNotEmpty &&
                                       _numberController.value.text.isNotEmpty &&
                                       isButtonClicked
                                   ? state.numberError
@@ -503,7 +504,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                   ),
                                   controller: _dateExpController,
                                   validator: (_) {
-                                    return state.dateExpError.isNotEmpty &&
+                                    return state.dateExpError!.isNotEmpty &&
                                             _dateExpController
                                                 .value.text.isNotEmpty
                                         ? state.dateExpError
@@ -572,7 +573,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                                       errorMaxLines: 3),
                                   controller: _cvvController,
                                   validator: (_) {
-                                    return state.cvvError.isNotEmpty &&
+                                    return state.cvvError!.isNotEmpty &&
                                             _cvvController.value.text.isNotEmpty
                                         ? state.cvvError
                                         : null;
@@ -609,7 +610,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
                             validator: (_) {
-                              return state.fiscalNumberError.isNotEmpty &&
+                              return state.fiscalNumberError!.isNotEmpty &&
                                       _fiscalNumberController
                                           .value.text.isNotEmpty
                                   ? state.fiscalNumberError
@@ -639,7 +640,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                             autovalidateMode: AutovalidateMode.always,
                             autocorrect: false,
                             validator: (_) {
-                              return state.tuyaCodeError.isNotEmpty &&
+                              return state.tuyaCodeError!.isNotEmpty &&
                                       _tuyaCodeController.value.text.isNotEmpty
                                   ? state.tuyaCodeError
                                   : null;
@@ -654,7 +655,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                     ),
                     widget._aboveButton ?? Container(height: 0.0, width: 0.0),
                     widget._summitButton != null
-                        ? widget._summitButton(isAddCardButtonEnabled(state)
+                        ? widget._summitButton!(isAddCardButtonEnabled(state)
                             ? _onFormSubmitted
                             : null)
                         : Padding(
@@ -693,7 +694,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
                 FadeInImage.assetNetwork(
                     placeholder: image,
                     image:
-                        state.cardBin?.urlLogoPng?.replaceAll('svg', 'png') ??
+                        state.cardBin?.urlLogoPng.replaceAll('svg', 'png') ??
                             ''),
           ),
         ),
@@ -733,7 +734,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
       _addCardBloc.add(
         DateExpChanged(
           context,
-          dateExp: _dateExpController?.value?.text?.trim() ?? "",
+          dateExp: _dateExpController.value.text.trim(),
         ),
       );
     });
@@ -755,7 +756,7 @@ class _AddCardFormState extends State<AddCardForm> with WidgetsBindingObserver {
   }
 
   void _dateExpFormatter() {
-    var text = _dateExpController?.value?.text ?? "";
+    var text = _dateExpController.value.text;
     switch (text.length) {
       case 0:
         _dateExpController.value =

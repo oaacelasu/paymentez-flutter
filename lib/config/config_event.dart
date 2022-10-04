@@ -14,10 +14,10 @@ class SetEnvironment extends ConfigEvent {
   final bool isFlutterAppHost;
 
   const SetEnvironment({
-    @required this.testMode,
-    @required this.paymentezClientAppCode,
+    required this.testMode,
+    required this.paymentezClientAppCode,
     this.isFlutterAppHost = false,
-    @required this.paymentezClientAppKey,
+    required this.paymentezClientAppKey,
   });
 
   @override

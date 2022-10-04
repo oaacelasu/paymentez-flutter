@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 
 @immutable
 class ErrorModel extends Equatable {
-  final String type;
-  final String description;
-  final String help;
+  final String? type;
+  final String? description;
+  final String? help;
 
 
   ErrorModel({
-    @required String type,
-    @required String description,
-    @required String help,
+    required String? type,
+    required String? description,
+    required String? help,
   })  : type = type,
         description = description,
         help = help;
 
   ErrorModel copyWith(
-          {String type,
-          String description,
-          String help}) =>
+          {String? type,
+          String? description,
+          String? help}) =>
       ErrorModel(
         type: type ?? this.type,
         description: description ?? this.description,
@@ -45,7 +45,7 @@ class ErrorModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
     type,
     description,
     help

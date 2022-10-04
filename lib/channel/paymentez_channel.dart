@@ -15,7 +15,7 @@ class Paymentez {
   static Paymentez _instance = new Paymentez();
 
   static Paymentez get getInstance => _instance;
-  ConfigBloc _configBloc;
+  late ConfigBloc _configBloc;
 
   Future<void> init(BuildContext context) async =>
       _channel.setMethodCallHandler((call) => _handleMethod(call, context));
@@ -33,7 +33,7 @@ class Paymentez {
     _channel.invokeMethod("pop");
   }
 
-  Future<String> getSessionId(BuildContext context, bool testMode) async =>
+  Future<String?> getSessionId(BuildContext context, bool testMode) async =>
       kIsWeb
           ? _getSessionIdForWeb(testMode)
           : _kountChannel.invokeMethod(

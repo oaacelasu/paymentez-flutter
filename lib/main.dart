@@ -27,7 +27,7 @@ void main() {
 }
 
 class App extends StatefulWidget {
-  App({Key key}) : super(key: key);
+  App({Key? key}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AddCardButton extends StatelessWidget {
-  final VoidCallback _onPressed;
+  final VoidCallback? _onPressed;
 
-  AddCardButton({Key key, VoidCallback onPressed})
+  AddCardButton({Key? key, VoidCallback? onPressed})
       : _onPressed = onPressed,
         super(key: key);
 

@@ -7,27 +7,27 @@ class Validators {
 
   static String isValidName(BuildContext context, String name) {
     var messages = S.of(context);
-    return (!_nameRegExp.hasMatch(name)) ? messages.add_card_invalid_name : '';
+    return (!_nameRegExp.hasMatch(name)) ? messages!.add_card_invalid_name : '';
   }
 
   static String isValidFiscalNumber(BuildContext context, String name) {
     var messages = S.of(context);
     return (!_numericRegExp.hasMatch(name))
-        ? messages.add_card_invalid_fiscal_number
+        ? messages!.add_card_invalid_fiscal_number
         : '';
   }
 
   static String isValidTuyaCode(BuildContext context, String name) {
     var messages = S.of(context);
     return (!_numericRegExp.hasMatch(name))
-        ? messages.add_card_invalid_tuya_code
+        ? messages!.add_card_invalid_tuya_code
         : '';
   }
 
   static String isValidCVV(BuildContext context, String value, cvvLength) {
     var messages = S.of(context);
     return (value.isEmpty || value.length != cvvLength)
-        ? messages.add_card_invalid_cvc
+        ? messages!.add_card_invalid_cvc
         : '';
   }
 
@@ -41,7 +41,7 @@ class Validators {
     return ((!_validateCardNum(number) && useLuhn) ||
             cardType.isEmpty ||
             mask.replaceAll(' ', '').length != number.length)
-        ? messages.add_card_invalid_number
+        ? messages!.add_card_invalid_number
         : '';
   }
 
@@ -49,7 +49,7 @@ class Validators {
     var messages = S.of(context);
 
     if (value.isEmpty) {
-      return messages.add_card_empty_expiration_date;
+      return messages!.add_card_empty_expiration_date;
     }
 
     int year;
@@ -70,7 +70,7 @@ class Validators {
 
     if ((month < 1) || (month > 12)) {
       // A valid month is between 1 (January) and 12 (December)
-      return messages.add_card_invalid_expiration_month;
+      return messages!.add_card_invalid_expiration_month;
     }
 
     var fourDigitsYear = convertYearTo4Digits(year);
@@ -78,11 +78,11 @@ class Validators {
     if ((fourDigitsYear < 1) || (fourDigitsYear > 2099)) {
       // We are assuming a valid should be between 1 and 2099.
       // Note that, it's valid doesn't mean that it has not expired.
-      return messages.add_card_invalid_expiration_year;
+      return messages!.add_card_invalid_expiration_year;
     }
 
     if (!_hasDateExpired(month, year)) {
-      return messages.add_card_invalid_expiration_date;
+      return messages!.add_card_invalid_expiration_date;
     }
     return '';
   }

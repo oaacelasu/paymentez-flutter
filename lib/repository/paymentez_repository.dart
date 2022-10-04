@@ -12,22 +12,22 @@ import 'package:paymentez_mobile/utils/repository_utils.dart';
 
 class PaymentezRepository extends Equatable {
   final ConfigState _configState;
-  final User _user;
-  final Function(CardModel) _successAction;
-  final Function(ErrorModel) _errorAction;
+  final User? _user;
+  final Function(CardModel)? _successAction;
+  final Function(ErrorModel)? _errorAction;
 
   final Dio _dio;
 
   ConfigState get configState => _configState;
-  Function(CardModel) get successAction => _successAction;
-  Function(ErrorModel) get errorAction => _errorAction;
+  Function(CardModel)? get successAction => _successAction;
+  Function(ErrorModel)? get errorAction => _errorAction;
 
   PaymentezRepository(
-      {ConfigState configState,
-      User user,
-      Function(CardModel card) successAction,
-      Function(ErrorModel error) errorAction})
-      : _configState = configState ?? DevModeState('', '', false),
+      {required ConfigState configState,
+      User? user,
+      Function(CardModel card)? successAction,
+      Function(ErrorModel error)? errorAction})
+      : _configState = configState,
         _user = user,
         _successAction = successAction,
         _errorAction = errorAction,
@@ -45,7 +45,7 @@ class PaymentezRepository extends Equatable {
   }
 
   Future<Response> createToken(BuildContext context,
-      {@required String sessionId, @required CardModel card}) async {
+      {required String sessionId, required CardModel card}) async {
     print('${_configState.baseUrl}/v2/card/add');
     _dio.options.headers = {
       "Content-Type": "application/json",
@@ -55,7 +55,7 @@ class PaymentezRepository extends Equatable {
     Response response = await _dio.post('/v2/card/add', data: {
       "session_id": await (kIsWeb?_getSessionIdForWeb(configState):FlutterKount.sessionId),
       "card": card.toJson(),
-      "user": _user.toJson(),
+      "user": _user!.toJson(),
     });
 
     print(response.statusCode);
@@ -68,7 +68,7 @@ class PaymentezRepository extends Equatable {
     return Future.value('');
   }
 
-  Future<CardBinModel> getCardBin({@required String bin}) async {
+  Future<CardBinModel> getCardBin({required String bin}) async {
     try {
       print('${_configState.baseUrl}/v2/card_bin/$bin');
       _dio.options.headers = {
@@ -86,6 +86,6 @@ class PaymentezRepository extends Equatable {
   }
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [_configState, _user, _successAction, _errorAction, _dio];
 }

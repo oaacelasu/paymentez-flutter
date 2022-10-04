@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 abstract class ConfigState extends Equatable {
   const ConfigState({
-    @required this.clientAppCode,
-    @required this.clientAppKey,
+    required this.clientAppCode,
+    required this.clientAppKey,
     this.isFlutterAppHost = false,
     this.initiated = false,
   });
@@ -13,10 +13,10 @@ abstract class ConfigState extends Equatable {
   final String clientAppCode;
   final String clientAppKey;
   final bool isFlutterAppHost;
-  final bool initiated;
+  final bool? initiated;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         baseUrl,
         clientAppCode,
         clientAppKey,
@@ -28,7 +28,7 @@ abstract class ConfigState extends Equatable {
 class DevModeState extends ConfigState {
   const DevModeState(
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
-      {bool initiated})
+      {bool? initiated})
       : super(
           clientAppCode: clientAppCode,
           clientAppKey: clientAppKey,
@@ -43,7 +43,7 @@ class DevModeState extends ConfigState {
 class StgModeState extends ConfigState {
   const StgModeState(
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
-      {bool initiated})
+      {bool? initiated})
       : super(
           clientAppCode: clientAppCode,
           clientAppKey: clientAppKey,
@@ -58,7 +58,7 @@ class StgModeState extends ConfigState {
 class QaModeState extends ConfigState {
   const QaModeState(
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
-      {bool initiated})
+      {bool? initiated})
       : super(
           clientAppCode: clientAppCode,
           clientAppKey: clientAppKey,
@@ -73,7 +73,7 @@ class QaModeState extends ConfigState {
 class ProdModeState extends ConfigState {
   const ProdModeState(
       String clientAppCode, String clientAppKey, bool isFlutterAppHost,
-      {bool initiated})
+      {bool? initiated})
       : super(
           clientAppCode: clientAppCode,
           clientAppKey: clientAppKey,

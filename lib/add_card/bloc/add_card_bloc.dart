@@ -16,7 +16,7 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
   PaymentezRepository _paymentezRepository;
 
   AddCardBloc({
-    @required PaymentezRepository paymentezRepository,
+    required PaymentezRepository paymentezRepository,
   })  : assert(paymentezRepository != null),
         _paymentezRepository = paymentezRepository,
         super(AddCardState.fromJson({}).empty()) {
@@ -99,7 +99,7 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
       numberError: Validators.isValidNumber(
           event.context,
           cardBin?.cardType ?? '',
-          event.number ?? '',
+          event.number,
           cardBin?.cardMask ?? AddCardState.numberDefaultMask,
           cardBin?.useLuhn ?? true),
     ));
@@ -113,21 +113,21 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
           sessionId: '', card: event.card);
       print('the request est returned');
 
-      var result = CardModel.fromJson(response.data['card' ?? {}]);
+      var result = CardModel.fromJson(response.data['card']);
       print('the request est ok');
       emit(state.success(result));
       Future.delayed(Duration(seconds: 2), () {
         if (_paymentezRepository.configState.isFlutterAppHost)
-          _paymentezRepository.successAction(result);
+          _paymentezRepository.successAction!(result);
         else
           Paymentez.getInstance.deliverAddCardResponse(event.context, result);
       });
     } on DioError catch (e) {
-      var result = ErrorModel.fromJson(e.response.data['error']);
+      var result = ErrorModel.fromJson(e.response!.data['error']);
       emit(state.failure(result));
       Future.delayed(Duration(seconds: 2), () {
         if (_paymentezRepository.configState.isFlutterAppHost)
-          _paymentezRepository.errorAction(result);
+          _paymentezRepository.errorAction!(result);
         else
           Paymentez.getInstance.deliverAddCardResponse(event.context, result);
       });

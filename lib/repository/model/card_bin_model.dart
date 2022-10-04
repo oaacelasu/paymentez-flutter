@@ -9,21 +9,21 @@ class CardBinModel extends Equatable {
   final String urlLogo;
   final List<dynamic> installmentsOptions;
   final int cvvLength;
-  final bool useLuhn;
+  final bool? useLuhn;
   final String cardMask;
   final String cardType;
   final bool otp;
 
   CardBinModel({
-    @required String carrier,
-    @required String urlLogoPng,
-    @required String urlLogo,
-    @required List<dynamic> installmentsOptions,
-    @required int cvvLength,
-    @required bool useLuhn,
-    @required String cardMask,
-    @required String cardType,
-    @required bool otp,
+    required String carrier,
+    required String urlLogoPng,
+    required String urlLogo,
+    required List<dynamic> installmentsOptions,
+    required int cvvLength,
+    required bool? useLuhn,
+    required String cardMask,
+    required String cardType,
+    required bool otp,
   })  : carrier = carrier,
         urlLogoPng = urlLogoPng,
         urlLogo = urlLogo,
@@ -35,16 +35,16 @@ class CardBinModel extends Equatable {
         otp = otp;
 
   CardBinModel copyWith({
-    String carrier,
-    String urlLogoPng,
-    String urlLogo,
-    List<dynamic> installmentsOptions,
-    int cvvLength,
-    bool useLuhn,
-    String cardMask,
-    MaskTextInputFormatter numberMaskFormatter,
-    String cardType,
-    bool otp,
+    String? carrier,
+    String? urlLogoPng,
+    String? urlLogo,
+    List<dynamic>? installmentsOptions,
+    int? cvvLength,
+    bool? useLuhn,
+    String? cardMask,
+    MaskTextInputFormatter? numberMaskFormatter,
+    String? cardType,
+    bool? otp,
   }) =>
       CardBinModel(
           carrier: carrier ?? this.carrier,
@@ -87,7 +87,7 @@ class CardBinModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         carrier,
         urlLogoPng,
         urlLogo,

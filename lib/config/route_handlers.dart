@@ -9,10 +9,10 @@ import 'package:paymentez_mobile/repository/paymentez_repository.dart';
 
 //Root
 var rootHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return Scaffold(
       body: Center(
-        child: Text(S.of(context).app_name),
+        child: Text(S.of(context!)!.app_name),
       ),
     );
   },
@@ -20,14 +20,14 @@ var rootHandler = Handler(
 );
 
 var addCardHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return BlocBuilder<ConfigBloc, ConfigState>(
       builder: (context, state) {
         if (state.initiated != true) {
           return Material(child: Center(child: Text('Loading...')));
         } else {
-          String uid = params["uid"]?.first;
-          String email = params["email"]?.first;
+          String? uid = params["uid"]?.first;
+          String? email = params["email"]?.first;
 
           return AddCardScreen(
             paymentezRepository: PaymentezRepository(

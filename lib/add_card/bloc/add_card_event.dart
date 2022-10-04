@@ -14,7 +14,7 @@ abstract class AddCardEvent extends Equatable {
 class NameChanged extends AddCardEvent {
   final String name;
 
-  const NameChanged(BuildContext context, {@required this.name})
+  const NameChanged(BuildContext context, {required this.name})
       : super(context);
 
   @override
@@ -53,7 +53,7 @@ class DateExpChanged extends AddCardEvent {
 class CvvChanged extends AddCardEvent {
   final String cvv;
 
-  const CvvChanged(BuildContext context, {@required this.cvv}) : super(context);
+  const CvvChanged(BuildContext context, {required this.cvv}) : super(context);
 
   @override
   List<Object> get props => [cvv];
@@ -93,7 +93,7 @@ class Submitted extends AddCardEvent {
 
   const Submitted(
     BuildContext context, {
-    @required this.card,
+    required this.card,
   }) : super(context);
 
   @override
