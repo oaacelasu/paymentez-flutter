@@ -18,10 +18,17 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
   AddCardBloc({
     @required PaymentezRepository paymentezRepository,
   })  : assert(paymentezRepository != null),
-        _paymentezRepository = paymentezRepository;
-
-  @override
-  AddCardState get initialState => AddCardState.fromJson({}).empty();
+        _paymentezRepository = paymentezRepository,
+        super(AddCardState.fromJson({}).empty()) {
+    print('Log: ${_paymentezRepository.configState.isFlutterAppHost}');
+    on<NumberChanged>(_mapNumberChangedToState);
+    on<NameChanged>(_mapNameChangedToState);
+    on<DateExpChanged>(_mapDateExpChangedToState);
+    on<CvvChanged>(_mapCvvChangedToState);
+    on<FiscalNumberChanged>(_mapFiscalNumberChangedToState);
+    on<TuyaCodeChanged>(_mapTuyaCodeChangedToState);
+    on<Submitted>(_mapSummitedToState);
+  }
 
 //  @override
 //  Stream<AddCardState> transformEvents(
@@ -40,111 +47,89 @@ class AddCardBloc extends Bloc<AddCardEvent, AddCardState> {
 //    );
 //  }
 
-  @override
-  Stream<AddCardState> mapEventToState(AddCardEvent event) async* {
-    print('holassss: ${_paymentezRepository.configState.isFlutterAppHost}');
-    if (event is NumberChanged) {
-      yield* _mapNumberChangedToState(event.context, event.number ?? '');
-    } else if (event is NameChanged) {
-      yield* _mapNameChangedToState(event.context, event.name ?? '');
-    } else if (event is DateExpChanged) {
-      yield* _mapDateExpChangedToState(event.context, event.dateExp ?? '');
-    } else if (event is CvvChanged) {
-      yield* _mapCvvChangedToState(event.context, event.cvv ?? '');
-    } else if (event is FiscalNumberChanged) {
-      yield* _mapFiscalNumberChangedToState(
-          event.context, event.fiscalNumber ?? '');
-    } else if (event is TuyaCodeChanged) {
-      yield* _mapTuyaCodeChangedToState(event.context, event.tuyaCode ?? '');
-    } else if (event is Submitted) {
-      yield* _mapSummitedToState(event.context,
-          sessionId: '', card: event.card);
-    }
+  Future<void> _mapNameChangedToState(
+      NameChanged event, Emitter<AddCardState> emit) async {
+    emit(state.update(
+      nameError: Validators.isValidName(event.context, event.name),
+    ));
   }
 
-  Stream<AddCardState> _mapNameChangedToState(
-      BuildContext context, String name) async* {
-    yield state.update(
-      nameError: Validators.isValidName(context, name),
-    );
+  Future<void> _mapDateExpChangedToState(
+      DateExpChanged event, Emitter<AddCardState> emit) async {
+    emit(state.update(
+      dateExpError: Validators.isValidDateExp(event.context, event.dateExp),
+    ));
   }
 
-  Stream<AddCardState> _mapDateExpChangedToState(
-      BuildContext context, String dateExp) async* {
-    yield state.update(
-      dateExpError: Validators.isValidDateExp(context, dateExp),
-    );
+  Future<void> _mapCvvChangedToState(
+      CvvChanged event, Emitter<AddCardState> emit) async {
+    emit(state.update(
+      cvvError: Validators.isValidCVV(
+          event.context, event.cvv, state.cardBin?.cvvLength),
+    ));
   }
 
-  Stream<AddCardState> _mapCvvChangedToState(
-      BuildContext context, String cvv) async* {
-    yield state.update(
-        cvvError:
-            Validators.isValidCVV(context, cvv, state.cardBin?.cvvLength));
+  Future<void> _mapFiscalNumberChangedToState(
+      FiscalNumberChanged event, Emitter<AddCardState> emit) async {
+    emit(state.update(
+      fiscalNumberError:
+          Validators.isValidFiscalNumber(event.context, event.fiscalNumber),
+    ));
   }
 
-  Stream<AddCardState> _mapFiscalNumberChangedToState(
-      BuildContext context, String fiscalNumber) async* {
-    yield state.update(
-      fiscalNumberError: Validators.isValidFiscalNumber(context, fiscalNumber),
-    );
+  Future<void> _mapTuyaCodeChangedToState(
+      TuyaCodeChanged event, Emitter<AddCardState> emit) async {
+    emit(state.update(
+      tuyaCodeError: Validators.isValidTuyaCode(event.context, event.tuyaCode),
+    ));
   }
 
-  Stream<AddCardState> _mapTuyaCodeChangedToState(
-      BuildContext context, String tuyaCode) async* {
-    yield state.update(
-      tuyaCodeError: Validators.isValidTuyaCode(context, tuyaCode),
-    );
-  }
-
-  Stream<AddCardState> _mapNumberChangedToState(
-      BuildContext context, String number) async* {
-    var cardBin = number.length < 6 ? CardBinModel.fromJson({}) : state.cardBin;
-    if (number.length >= 6 && number.length < 11 ||
-        number.length >= 6 && state.cardBin == CardBinModel.fromJson({}))
+  Future<void> _mapNumberChangedToState(
+      NumberChanged event, Emitter<AddCardState> emit) async {
+    var cardBin =
+        event.number.length < 6 ? CardBinModel.fromJson({}) : state.cardBin;
+    if (event.number.length >= 6 && event.number.length < 11 ||
+        event.number.length >= 6 && state.cardBin == CardBinModel.fromJson({}))
       cardBin = await _paymentezRepository.getCardBin(
-          bin: number.substring(0, min(number.length, 10)));
+          bin: event.number.substring(0, min(event.number.length, 10)));
 
-    yield state.updateNumber(
-      number: number,
+    emit(state.updateNumber(
+      number: event.number,
       cardBin: cardBin,
       numberError: Validators.isValidNumber(
-          context,
+          event.context,
           cardBin?.cardType ?? '',
-          number ?? '',
+          event.number ?? '',
           cardBin?.cardMask ?? AddCardState.numberDefaultMask,
           cardBin?.useLuhn ?? true),
-    );
+    ));
   }
 
-  Stream<AddCardState> _mapSummitedToState(
-    BuildContext context, {
-    String sessionId,
-    CardModel card,
-  }) async* {
-    yield state.loading();
+  Future<void> _mapSummitedToState(
+      Submitted event, Emitter<AddCardState> emit) async {
+    emit(state.loading());
     try {
-      var response = await _paymentezRepository.createToken(context,
-          sessionId: sessionId, card: card);
+      var response = await _paymentezRepository.createToken(event.context,
+          sessionId: '', card: event.card);
       print('the request est returned');
 
       var result = CardModel.fromJson(response.data['card' ?? {}]);
       print('the request est ok');
-      yield state.success(result);
+      emit(state.success(result));
       Future.delayed(Duration(seconds: 2), () {
         if (_paymentezRepository.configState.isFlutterAppHost)
           _paymentezRepository.successAction(result);
         else
-          Paymentez.getInstance.deliverAddCardResponse(context, result);
+          Paymentez.getInstance.deliverAddCardResponse(event.context, result);
       });
     } on DioError catch (e) {
       var result = ErrorModel.fromJson(e.response.data['error']);
-      yield state.failure(result);
+      emit(state.failure(result));
       Future.delayed(Duration(seconds: 2), () {
         if (_paymentezRepository.configState.isFlutterAppHost)
           _paymentezRepository.errorAction(result);
         else
-          Paymentez.getInstance.deliverAddCardResponse(context, result);
+          Paymentez.getInstance.deliverAddCardResponse(event.context, result);
       });
     }
   }

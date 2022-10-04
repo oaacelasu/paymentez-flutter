@@ -27,7 +27,7 @@ class NameChanged extends AddCardEvent {
 class NumberChanged extends AddCardEvent {
   final String number;
 
-  const NumberChanged(BuildContext context, {@required this.number})
+  const NumberChanged(BuildContext context, {this.number = ''})
       : super(context);
 
   @override
@@ -40,7 +40,7 @@ class NumberChanged extends AddCardEvent {
 class DateExpChanged extends AddCardEvent {
   final String dateExp;
 
-  const DateExpChanged(BuildContext context, {@required this.dateExp})
+  const DateExpChanged(BuildContext context, {this.dateExp = ''})
       : super(context);
 
   @override
@@ -65,7 +65,7 @@ class CvvChanged extends AddCardEvent {
 class FiscalNumberChanged extends AddCardEvent {
   final String fiscalNumber;
 
-  const FiscalNumberChanged(BuildContext context, {@required this.fiscalNumber})
+  const FiscalNumberChanged(BuildContext context, {this.fiscalNumber = ''})
       : super(context);
 
   @override
@@ -78,7 +78,7 @@ class FiscalNumberChanged extends AddCardEvent {
 class TuyaCodeChanged extends AddCardEvent {
   final String tuyaCode;
 
-  const TuyaCodeChanged(BuildContext context, {@required this.tuyaCode})
+  const TuyaCodeChanged(BuildContext context, {this.tuyaCode = ''})
       : super(context);
 
   @override

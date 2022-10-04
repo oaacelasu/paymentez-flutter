@@ -13,26 +13,26 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   dio: ^4.0.0
-  equatable: ^1.2.4
+  equatable: ^2.0.5
   meta: ^1.1.8
-  font_awesome_flutter: ^8.8.1
-  flutter_bloc: ^4.0.0
+  font_awesome_flutter: ^10.2.1
+  flutter_bloc: ^8.1.1
   path_provider: ^2.0.1
-  after_layout: ^1.0.7+2
+  after_layout: ^1.2.0
   crypto: ^3.0.1
-  flutter_svg: ^0.21.0+1
-  mask_text_input_formatter: ^1.1.0
-  fluro: ^1.6.3
+  flutter_svg: ^1.1.5
+  mask_text_input_formatter: ^2.4.0
+  fluro: ^2.0.3
   flutter_kount:
     git:
       url: https://github.com/oaacelasu/flutter_kount
-      ref: master
+      ref: migrate_to_null_safety
   flutter_card_io_v2:
     git:
-      url: https://github.com/juanchiquiza/flutter_card_io_v2
-      ref: feature/update-credit-card
+      url: https://github.com/oaacelasu/flutter_card_io_v2
+      ref: migrate_to_null_safety
 
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.5
 
 flutter:
   assets:

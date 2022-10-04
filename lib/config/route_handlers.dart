@@ -24,7 +24,7 @@ var addCardHandler = Handler(
     return BlocBuilder<ConfigBloc, ConfigState>(
       builder: (context, state) {
         if (state.initiated != true) {
-          return Center(child: Text('Loading...'));
+          return Material(child: Center(child: Text('Loading...')));
         } else {
           String uid = params["uid"]?.first;
           String email = params["email"]?.first;

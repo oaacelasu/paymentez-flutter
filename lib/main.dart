@@ -12,7 +12,8 @@ import 'package:paymentez_mobile/simple_bloc_delegate.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  Bloc.observer = SimpleBlocObserver();
+
   runApp(
     BlocProvider(
       create: (context) => ConfigBloc()
@@ -51,7 +52,7 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
 
   @override
   Widget build(BuildContext context) {
-    final router = new _fluroDart.Router();
+    final router = new _fluroDart.FluroRouter();
     Routes.configureRoutes(router);
 
     return MaterialApp(
